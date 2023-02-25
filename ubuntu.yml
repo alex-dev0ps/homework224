@@ -1,0 +1,31 @@
+- hosts: ubu
+  tasks:
+  - name: install Apache
+    apt:
+      name: apache2
+      state: latest
+
+  - name: install unzip
+    apt:
+      name: unzip
+      state: latest
+
+  - name: make sure service running 
+    service: 
+      name: apache2
+      state: started
+      enabled: yes
+
+  - name: unarchive a file that needs to be downloaded 
+    unarchive:
+      src: https://www.free-css.com/assets/files/free-css-templates/download/page272/infinite-loop.zip
+      dest: /var/www/html/
+      remote_src: yes   
+
+  - name: Recursively change ownership of a directory
+    file:
+      path: /var/www/
+      state: directory
+      recurse: yes
+      owner: apache2
+      group: apache2     
